@@ -32,5 +32,20 @@ namespace ASPNETCoreWebAPI.Controllers
 
             return Unauthorized("Kullanıcı adı veya şifre hatalı.");
         }
+        [HttpGet("token")]
+        public IActionResult GetToken([FromQuery] Users user)
+        {
+
+            if (_authService.ValidateCredentials(user))
+            {
+
+                var token = _authService.GenerateJwtToken(user);
+
+                return Ok(new { Token = token });
+            }
+
+
+            return Unauthorized("Kullanıcı adı veya şifre hatalı.");
+        }
     }
 }
